@@ -1,0 +1,72 @@
+name: Build Windows & macOS apps
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  windows:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller
+
+      - name: Build EXE
+        run: pyinstaller --onefile --windowed --name MLAdocchecker mla_gui.py
+
+      - name: Upload EXE
+        uses: actions/upload-artifact@v4
+        with:
+          name: MLAdocchecker-windows
+          path: dist/MLAdocchecker.exe
+
+      - name: Attach EXE to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/MLAdocchecker.exe
+
+  macos:
+    runs-on: macos-latest   # Apple Silicon (M1/M2/M3/M4)
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt pyinstaller
+
+      - name: Build .app
+        run: pyinstaller --windowed --name MLAdocchecker mla_gui.py
+
+      - name: Zip .app
+        run: ditto -c -k --keepParent dist/MLAdocchecker.app MLAdocchecker-macOS.zip
+
+      - name: Upload .app
+        uses: actions/upload-artifact@v4
+        with:
+          name: MLAdocchecker-macos
+          path: MLAdocchecker-macOS.zip
+
+      - name: Attach .app to release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v2
+        with:
+          files: MLAdocchecker-macOS.zip
