@@ -20,7 +20,29 @@ Her mesajın sonunda ilgili MLA Handbook (9. baskı) bölüm numarası yer alır
 
 Çıkış kodu: hata yoksa `0`, en az bir hata varsa `1` (CI/otomasyon için kullanılabilir).
 
-## Kurulum
+## İndir ve çalıştır (kurulum gerekmez)
+
+Sağdaki **Releases** bölümünden en son sürümü açın ve işletim sisteminize uygun dosyayı indirin.
+
+### Windows
+
+1. `MLAdocchecker.exe` dosyasını indirip çift tıklayın.
+2. "Windows kişisel bilgisayarınızı korudu" uyarısı çıkarsa **Ek bilgi → Yine de çalıştır** deyin.
+
+### macOS (Apple Silicon: M1 ve sonrası)
+
+1. `MLAdocchecker-macOS.zip` dosyasını indirin, çift tıklayarak açın ve çıkan `MLAdocchecker` uygulamasını **Uygulamalar** klasörüne sürükleyin.
+2. İlk açılışta macOS "açılamıyor" uyarısı verir. **Sistem Ayarları → Gizlilik ve Güvenlik** bölümüne gidin, aşağıda "MLAdocchecker engellendi" satırının yanındaki **Yine de Aç** düğmesine basın ve onaylayın.
+   Alternatif: Terminal'de `xattr -dr com.apple.quarantine /Applications/MLAdocchecker.app` komutunu çalıştırın.
+3. Bu adım yalnızca ilk açılışta gerekir.
+
+Uyarıların nedeni, programın Microsoft/Apple tarafından dijital olarak imzalanmamış olmasıdır; kod bu depoda açıkça görülebilir.
+
+Programı açtıktan sonra **Word dosyası seç** düğmesiyle `.docx` belgenizi seçin. Rapor renkli olarak görünür, isterseniz `.txt` olarak kaydedebilirsiniz.
+
+Intel işlemcili eski Mac'lerde veya Linux'ta aşağıdaki Python yöntemini kullanın.
+
+## Kurulum (Python ile)
 
 Python 3.8 veya üzeri gerekir.
 
@@ -31,6 +53,10 @@ pip install -r requirements.txt
 ```
 
 ## Kullanım
+
+Pencere arayüzü: `python mla_gui.py`
+
+Komut satırı:
 
 ```bash
 python mla_docx_checker.py makalem.docx
@@ -73,6 +99,7 @@ python mla_docx_checker.py paper.docx
 
 ## Sürüm geçmişi
 
+- **2.1.0**: Pencere arayüzü (`mla_gui.py`) ve GitHub Actions ile otomatik Windows `.exe` ve macOS `.app` derlemesi eklendi.
 - **2.0.0**: Üst bilgi, heceleme, ara başlık, `p./pp.` ve Works Cited (yeni sayfa, Work/Works, çift aralık, nokta) kontrolleri eklendi; stil zincirinden biçim okuma; MLA 5.124'e uygun alfabetik sıralama; 11–13 pt aralığı; bölüm numaralı mesajlar.
 - **1.0.0**: İlk sürüm.
 

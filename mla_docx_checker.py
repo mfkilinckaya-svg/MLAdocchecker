@@ -17,7 +17,7 @@ from docx.enum.text import WD_ALIGN_PARAGRAPH, WD_LINE_SPACING
 from docx.oxml.ns import qn
 from docx.shared import Length
 
-__version__ = "2.0.0"
+__version__ = "2.1.0"
 
 TOL = 0.06  # inç cinsinden tolerans (Word değerleri yuvarlanabiliyor)
 WC_HEADINGS = ("Works Cited", "Work Cited")
